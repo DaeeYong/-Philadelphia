@@ -1,6 +1,7 @@
 # Philadelphia
-![old fashioned](./media/banner.webp)
-
+<p align ='center'>
+    <img src='./media/banner.webp' width='50%'>
+</p>
 프로젝트명 : 필라델피아
 해당 코드는 필라델피아를 위해서 작성되었습니다.
 
