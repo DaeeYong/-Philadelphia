@@ -1,9 +1,12 @@
-# -Philadelphia
+# Philadelphia
+![old fashioned](./media/banner.webp)
+
 프로젝트명 : 필라델피아
 해당 코드는 필라델피아를 위해서 작성되었습니다.
 
 코드의 사용법을 최대한 자세히 설명하겠지만, 잘 안되는 부분이 있다면 편한 방법으로 연락바랍니다.(ex. 깃허브 이슈, 이메일, 기타 등등)
 
+special thanks : Jingeun Lee
 ## 구성목록
 ### Code 부분
 

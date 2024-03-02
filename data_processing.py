@@ -8,7 +8,6 @@ sepcial thanks : Jingeun Lee
 import os
 
 json_dir_path = 'C:/Users/admin/Desktop/project/json_test/'
-
 openpose_path = 'C:/Users/admin/Desktop/project/openpose-1.7.0/openpose/bin/OpenPoseDemo.exe'
 video_dir_path = 'C:/Users/admin/Desktop/project/openpose-1.7.0/openpose/video/'
 
