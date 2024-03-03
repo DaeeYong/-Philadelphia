@@ -7,10 +7,15 @@ sepcial thanks : Jingeun Lee
 
 import os
 
+# 자신의 환경에 맞게 수정해야 하는 부분
 json_dir_path = 'C:/Users/admin/Desktop/project/json_test/'
 openpose_path = 'C:/Users/admin/Desktop/project/openpose-1.7.0/openpose/bin/OpenPoseDemo.exe'
 video_dir_path = 'C:/Users/admin/Desktop/project/openpose-1.7.0/openpose/video/'
 
+
+'''
+아래 코드 내용은 수정 안해도 괜찮을 거예요.
+'''
 video_list = os.listdir(video_dir_path)
 print("<video list>")
 for video_name in video_list:
