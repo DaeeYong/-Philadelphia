@@ -354,5 +354,42 @@ def get_specific_video_frame(video_path:str, frame_num = 0) -> np.ndarray:
     
     return frame
 
+# 최신판
+def mark_pos_on_video(video_path:str, frame_data_list : list, video_name, speed = 1):
+    cap = cv2.VideoCapture(video_path)
+
+    
+    frame_data_max_idx = len(frame_data_list) - 1
+    
+    if not cap.isOpened():
+        print(f'[Error: could not open video]:{video_path}')
+        return -1
+
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+        
+        #현재 프레임 번호
+        current_frame_idx = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
+
+        if current_frame_idx < frame_data_max_idx + 1:
+            #하나의 프레임에 해당하는 위치 그리기
+            for i in range(0, 50, 2):
+                x = frame_data_list[current_frame_idx][i]
+                y = frame_data_list[current_frame_idx][i + 1]
+
+                mark_pos(frame, x, y)
+        
+        ################
+        print(f'now frame idx: {current_frame_idx}')
+        cv2.imshow(video_name, frame)
+        cv2.waitKey(speed)
+        if cv2.waitKey(30) & 0xFF == 27:
+                break
+
+    cap.release()
+    cv2.destroyAllWindows()
+    
 if __name__=="__main__":
     print(os.__version__)
