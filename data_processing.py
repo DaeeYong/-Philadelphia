@@ -8,9 +8,9 @@ sepcial thanks : Jingeun Lee
 import os
 
 # 자신의 환경에 맞게 수정해야 하는 부분
-json_dir_path = 'C:/Users/admin/Desktop/project/json_test/'
+json_dir_path = 'C:/Users/admin/Desktop/project/json/pp087/'
 openpose_path = 'C:/Users/admin/Desktop/project/openpose-1.7.0/openpose/bin/OpenPoseDemo.exe'
-video_dir_path = 'C:/Users/admin/Desktop/project/openpose-1.7.0/openpose/video/'
+video_dir_path = 'C:/Users/admin/Downloads/30-20240305T021420Z-001/30/'
 
 
 '''
@@ -29,5 +29,5 @@ for video_name in video_list:
     json_file_path = json_dir_path + video_name + '/'
     command = openpose_path + ' --video ' + video_dir_path + video_name + ' --number_people_max 2 --write_json ' + json_file_path + ' --display 0 --render_pose 0'
     os.system(command)
-    print(f'[{cnt}/{length}] processed\n')
+    print(f'[{cnt}/{length}] processed/n')
 

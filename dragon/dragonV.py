@@ -106,14 +106,26 @@ def jsons2excel(json_dir_path, feature_list, key_index, file_name, save_path, js
 
     #fetch json file list
     json_list = get_jsons_list(json_dir_path)
-    
+    json_list.sort()
     #read json file sequentially
     for name in json_list:
         #read json file
         with open(json_dir_path + name, 'r') as file:
             data = json.load(file)
 
+        # json file에 'people'의 value가 비어있는 경우
+        if data['people'] == []:
+            empty_list = [0] * 50
+            sheet.append(empty_list)
+            continue
+        
         people = data[json_key]
+        # people 요소 길이와 key idx 비교
+        if len(people) -1 < key_index:
+            empty_list = [0] * 50
+            sheet.append(empty_list)
+            continue
+
         p = people[key_index]
         p_keypoints = p["pose_keypoints_2d"]
         
@@ -195,7 +207,7 @@ def play_marked_position_from_video(all_frame_list, video_path, video_name, spee
             if not ret:
                 break
 
-            cur_frame = int(cap.get(cv2.CAP_PROP_POS_FRAMES)) - 1
+            cur_frame = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
             ####processing#######
             for idx in range(0, len(all_frame_list[cur_frame]), 2):
                 x = all_frame_list[cur_frame][idx]
@@ -213,7 +225,7 @@ def play_marked_position_from_video(all_frame_list, video_path, video_name, spee
     cv2.destroyAllWindows()
 
 
-def xlsx2data(data_path, sheet_name, start_row = 1):
+def xlsx2data(data_path, sheet_name='Sheet', start_row = 1):
     wb = xl.load_workbook(data_path, data_only=True)
     sheet = wb[sheet_name]
     frame_data_list = []
@@ -223,16 +235,6 @@ def xlsx2data(data_path, sheet_name, start_row = 1):
     
     return frame_data_list
 
-def xlsx2data(data_path, sheet_name='Sheet', start_row = 0):
-    wb = xl.load_workbook(data_path, data_only=True)
-    sheet = wb[sheet_name]
-    frame_data_list = []
-
-    for row in sheet.iter_rows(min_row=start_row, values_only=True):
-        frame_data_list.append(list(row))
-    
-
-    return frame_data_list
 '''
 !경고! : 해당함수는 실험용입니다. 사용하지 마세요.
 openpose로 joint position estimation을 했을 때,
@@ -322,7 +324,7 @@ def play_video(video_path, video_name):
         cv2.imshow(video_name, frame)        
         if cv2.waitKey(25) & 0xFF == 27:  # esc 키의 ASCII 코드는 27
             break
-       
+
     cap.release()
     cv2.destroyAllWindows()
 

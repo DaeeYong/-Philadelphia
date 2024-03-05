@@ -3,9 +3,12 @@
 import cv2
 from dragon import dragonV
 
-exlx_path0 = '/Users/ivory/Desktop/WorkSpace/Philadelphia/excel/walk_turn_rear.mp40.xlsx'
-exlx_path1 = '/Users/ivory/Desktop/WorkSpace/Philadelphia/excel/walk_turn_rear.mp41.xlsx'
-video_path = '/Users/ivory/Desktop/WorkSpace/lab/pp01/walk_turn_rear.mp4'
-frame_data_list = dragonV.xlsx2data(exlx_path0)
+excel_root = 'C:/Users/admin/Desktop/Philadelphia/excel/pp08/pp008_omc_gait2_off_front.mp4/'
+excel_idx0 = excel_root + 'idx0.xlsx'
+excel_idx1 = excel_root + 'idx1.xlsx'
 
-dragonV.play_marked_position_from_video(frame_data_list, video_path, 'walk_turn_rear')
+video_path = 'C:/Users/admin/Desktop/project/video/pp08/pp008_omc_gait2_off_front.mp4'
+
+frame_data_list = dragonV.xlsx2data(excel_idx0)
+
+dragonV.play_marked_position_from_video(frame_data_list, video_path, 'pp008_omc_gait2_off_front.mp4')
