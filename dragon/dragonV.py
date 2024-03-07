@@ -356,6 +356,7 @@ def get_specific_video_frame(video_path:str, frame_num = 0) -> np.ndarray:
 
 # 최신판
 def mark_pos_on_video(video_path:str, frame_data_list : list, video_name, speed = 1):
+    flag = False
     cap = cv2.VideoCapture(video_path)
 
     
@@ -386,10 +387,13 @@ def mark_pos_on_video(video_path:str, frame_data_list : list, video_name, speed 
         cv2.imshow(video_name, frame)
         cv2.waitKey(speed)
         if cv2.waitKey(30) & 0xFF == 27:
-                break
+            cap.release()
+            cv2.destroyAllWindows()
+            exit()
+        
 
     cap.release()
     cv2.destroyAllWindows()
-    
+
 if __name__=="__main__":
     print(os.__version__)
