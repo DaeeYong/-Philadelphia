@@ -1,9 +1,9 @@
 from dragon import dragonV
 
-idx0 ='/Users/ivory/Desktop/WorkSpace/lab/jointAndGt/pp086/pp086_omc_walk_turn_front.mp4/idx0.xlsx'
-idx1 = '/Users/ivory/Desktop/WorkSpace/lab/jointAndGt/pp086/pp086_omc_walk_turn_front.mp4/idx1.xlsx' 
-nogada = '/Users/ivory/Desktop/WorkSpace/lab/jointAndGt/pp086/pp086_omc_walk_turn_front.mp4/nogada.xlsx'  
-video_path = '/Users/ivory/Documents/lab/verybigdata/pp086/30/pp086_omc_walk_turn_front.mp4'
+idx0 ='/Users/ivory/Desktop/WorkSpace/lab/jointAndGt/pp086/pp086_omc_gait2_front.mp4/idx0.xlsx'
+idx1 = '/Users/ivory/Desktop/WorkSpace/lab/jointAndGt/pp086/pp086_omc_gait1_rear.mp4/idx1.xlsx' 
+nogada = '/Users/ivory/Desktop/WorkSpace/lab/jointAndGt/pp086/pp086_omc_gait1_rear.mp4/nogada.xlsx'  
+video_path = '/Users/ivory/Documents/lab/verybigdata/pp086/30/pp086_omc_gait2_front.mp4'
 
 idx0_frame_list = dragonV.xlsx2data(idx0)
 idx1_frame_list = dragonV.xlsx2data(idx1)        

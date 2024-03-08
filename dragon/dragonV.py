@@ -191,8 +191,9 @@ def mark_position_at_video(data_path, video_path, video_name, speed = 100):
 
 '''
 all_frame_list : 각 프레임 값이 저장되어 있는 2차원 배열
+사용하지 마세요. 아래 최신판 함수 있습니다.
 '''
-def play_marked_position_from_video(all_frame_list, video_path, video_name, speed=1):
+def play_marked_position_from_video_deprecated(all_frame_list, video_path, video_name, speed=1):
     cap = cv2.VideoCapture(video_path)
 
     #open video
@@ -372,7 +373,7 @@ def mark_pos_on_video(video_path:str, frame_data_list : list, video_name, speed 
             break
         
         #현재 프레임 번호
-        current_frame_idx = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
+        current_frame_idx = int(cap.get(cv2.CAP_PROP_POS_FRAMES)) - 1
 
         if current_frame_idx < frame_data_max_idx + 1:
             #하나의 프레임에 해당하는 위치 그리기
@@ -394,6 +395,95 @@ def mark_pos_on_video(video_path:str, frame_data_list : list, video_name, speed 
 
     cap.release()
     cv2.destroyAllWindows()
+
+# label을 rendering 하는 함수
+# gt = [ ltoe, lheel, rtoe, rheel ], [ 19, 21, 22, 24 ]
+def render_result_on_video(video_path:str, joint_gt_pair_list : list, video_name:str, speed = 1):
+    label_number = [19, 21, 22, 24]
+    cap = cv2.VideoCapture(video_path)
+    frame_data_max_idx = len(joint_gt_pair_list) - 1
+
+    if not cap.isOpened():
+        print(f'[Error: could not open video]:{video_path}')
+        return -1
+
+    print(f"[read success]{video_path}")
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+        
+        #현재 프레임 번호
+        current_frame_idx = int(cap.get(cv2.CAP_PROP_POS_FRAMES)) - 1
+        
+        if current_frame_idx < frame_data_max_idx + 1:
+            #모든 joint pos plotting
+            for i in range(0, 50, 2):
+                x = joint_gt_pair_list[current_frame_idx][0][i]
+                y = joint_gt_pair_list[current_frame_idx][0][i + 1]
+
+                mark_pos(frame, x, y, color=(0, 0, 255))
+
+            #label parsing
+            ltoe_label = joint_gt_pair_list[current_frame_idx][1][0]
+            lheel_label = joint_gt_pair_list[current_frame_idx][1][1]
+            rtoe_label = joint_gt_pair_list[current_frame_idx][1][2]
+            rheel_label = joint_gt_pair_list[current_frame_idx][1][3]
+
+            ###label rendering###
+            
+            if ltoe_label == 1:
+                x = joint_gt_pair_list[current_frame_idx][0][label_number[0] * 2]
+                y = joint_gt_pair_list[current_frame_idx][0][label_number[0] * 2 + 1]
+                mark_pos(frame, x, y, color=(0, 255, 0))
+            
+            if lheel_label == 1:
+                x = joint_gt_pair_list[current_frame_idx][0][label_number[1] * 2]
+                y = joint_gt_pair_list[current_frame_idx][0][label_number[1] * 2 + 1]
+                mark_pos(frame, x, y, color=(0, 255, 0))
+
+            if rtoe_label == 1:
+                x = joint_gt_pair_list[current_frame_idx][0][label_number[2] * 2]
+                y = joint_gt_pair_list[current_frame_idx][0][label_number[2] * 2 + 1]
+                mark_pos(frame, x, y, color=(0, 255, 0))
+
+            if rheel_label == 1:
+                x = joint_gt_pair_list[current_frame_idx][0][label_number[3] * 2]
+                y = joint_gt_pair_list[current_frame_idx][0][label_number[3] * 2 + 1]
+                mark_pos(frame, x, y, color=(0, 255, 0))
+
+        ################
+        print(f'now frame idx: {current_frame_idx}')
+        cv2.imshow(video_name, frame)
+        cv2.waitKey(speed)
+        if cv2.waitKey(30) & 0xFF == 27:
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
+
+'''
+데이터 반환 형식
+[
+    [ [ each_frame_data ],[ label ] ],
+    [ [ each_frame_data ],[ label ] ],
+    [ [ each_frame_data ],[ label ] ],
+                ...
+    [ [ each_frame_data ],[ label ] ],
+    [ [ each_frame_data ],[ label ] ]
+]
+'''
+def make_dataAndGtPair(all_frame_data : list, label : list, startidx = 1) -> list:
+    frame_len = len(all_frame_data)
+    
+    data_gt_pair_list = []
+    for idx in range(startidx, frame_len):
+        tmp = []
+        tmp.append(all_frame_data[idx])
+        tmp.append(label[idx])
+        data_gt_pair_list.append(tmp)
+    
+    return data_gt_pair_list
 
 if __name__=="__main__":
     print(os.__version__)
