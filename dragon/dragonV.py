@@ -39,17 +39,21 @@ def add_number(a:int, b:int) -> int:
 def remove_confidence_from_keypoints_2d(p_keypoints):
     return [value for index, value in enumerate(p_keypoints, start=1) if index % 3!= 0]
 
+def nomalize_xlsx_and_save(frame_data):
+    pass
+
+
 def nomalize_data(frame_list):
     scalar = MinMaxScaler()
     nomalized_frame_list = scalar.fit_transform(frame_list).tolist()
     
     return nomalized_frame_list
 
-def framelist2excel(frame_list, feature_list, save_path):
+def framelist2excel(frame_list, save_path):
     wb = xl.Workbook()
     sheet = wb.active
 
-    sheet.append(feature_list)
+    #sheet.append(feature_list)
     for each_frame in frame_list:
         sheet.append(each_frame)
     
@@ -356,7 +360,7 @@ def get_specific_video_frame(video_path:str, frame_num = 0) -> np.ndarray:
     return frame
 
 # 최신판
-def mark_pos_on_video(video_path:str, frame_data_list : list, video_name, speed = 1):
+def mark_pos_on_video(video_path:str, frame_data_list : list, video_name, start_frame_idx = 0, speed = 1):
     flag = False
     cap = cv2.VideoCapture(video_path)
 
@@ -366,6 +370,9 @@ def mark_pos_on_video(video_path:str, frame_data_list : list, video_name, speed 
     if not cap.isOpened():
         print(f'[Error: could not open video]:{video_path}')
         return -1
+
+    for i in range(0, start_frame_idx + 1):
+        ret, frame = cap.read()
 
     while cap.isOpened():
         ret, frame = cap.read()
