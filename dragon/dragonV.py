@@ -492,5 +492,25 @@ def make_dataAndGtPair(all_frame_data : list, label : list, startidx = 1) -> lis
     
     return data_gt_pair_list
 
+'''
+selected_joint_number_list = [1, 2, 3, 10, 24]
+'''
+def get_selected_joint_pos_frame_list(joint_frame_data : list, selected_joint_number_list : list):
+    selected_joint_frame_data_list = []
+    frame_len = len(joint_frame_data)
+
+    for idx in range(0, frame_len):
+        each_frame = []
+        for joint_idx in selected_joint_frame_data_list:
+            x = joint_frame_data[idx][joint_idx * 2]
+            y = joint_frame_data[idx][joint_idx * 2 + 1]
+            each_frame.append(x)
+            each_frame.append(y)
+
+        selected_joint_frame_data_list.append(each_frame)
+
+    return selected_joint_frame_data_list
+
+
 if __name__=="__main__":
     print(os.__version__)
