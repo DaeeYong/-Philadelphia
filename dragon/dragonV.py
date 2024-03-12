@@ -470,7 +470,7 @@ def render_result_on_video(video_path:str, joint_gt_pair_list : list, video_name
     cv2.destroyAllWindows()
 
 '''
-데이터 반환 형식
+데이터 반환 형식 : 3차원 배열
 [
     [ [ each_frame_data ],[ label ] ],
     [ [ each_frame_data ],[ label ] ],
@@ -482,9 +482,15 @@ def render_result_on_video(video_path:str, joint_gt_pair_list : list, video_name
 '''
 def make_dataAndGtPair(all_frame_data : list, label : list, startidx = 1) -> list:
     frame_len = len(all_frame_data)
-    
+    label_len = len(label)
+
     data_gt_pair_list = []
-    for idx in range(startidx, frame_len):
+    
+    shorter_len = 0
+    if frame_len < label_len : shorter_len = frame_len
+    else : shorter_len = label_len
+
+    for idx in range(startidx, shorter_len):
         tmp = []
         tmp.append(all_frame_data[idx])
         tmp.append(label[idx])
@@ -497,11 +503,11 @@ selected_joint_number_list = [1, 2, 3, 10, 24]
 '''
 def get_selected_joint_pos_frame_list(joint_frame_data : list, selected_joint_number_list : list):
     selected_joint_frame_data_list = []
-    frame_len = len(joint_frame_data)
 
+    frame_len = len(joint_frame_data)
     for idx in range(0, frame_len):
         each_frame = []
-        for joint_idx in selected_joint_frame_data_list:
+        for joint_idx in selected_joint_number_list:
             x = joint_frame_data[idx][joint_idx * 2]
             y = joint_frame_data[idx][joint_idx * 2 + 1]
             each_frame.append(x)
